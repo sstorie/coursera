@@ -7,8 +7,8 @@ function [X_norm, mu, sigma] = featureNormalize(X)
 
 % You need to set these values correctly
 X_norm = X;
-%mu = zeros(1, size(X, 2));
-%sigma = zeros(1, size(X, 2));
+mu = zeros(1, size(X, 2));
+sigma = zeros(1, size(X, 2));
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: First, for each feature dimension, compute the mean
@@ -29,20 +29,19 @@ X_norm = X;
 mu = mean(X);
 sigma = std(X);
 
-% Now iterate over each column of X so we can update each value
-%   in a given feature
+% Now iterate over each column of X so we
 %
-for i = 1:size(X, 2)
-   % Now perform "mean normalization" on each feature value while
-   %    also scaling by the standard deviation. Note, because X(i)
-   %    is a vector, we can still use simple subtraction to subtract
-   %    the mean values, but we need to use element-division to 
-   %    properly divide by the std dev.
-   %
-   X_norm(:,i) = (X(:,i) - mu(:,i)) / sigma(:,i);
-   
+for i = 1:size(X, 1)
    
 end
+
+
+
+
+
+
+
+
 
 % ============================================================
 
