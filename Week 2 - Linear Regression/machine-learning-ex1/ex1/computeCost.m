@@ -13,7 +13,9 @@ J = 0;
 % Instructions: Compute the cost of a particular choice of theta
 %               You should set J to the cost.
 
-
+% This cost function computes the sum of squares error for
+%   the provided inputs
+%
 J = sum(((X * theta) - y) .^ 2) / (2*m)
 
 

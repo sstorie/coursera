@@ -20,19 +20,8 @@ for iter = 1:num_iters
     % We use temp variables because these updates need to be done
     %   simultaneously.
     %
-    % Computing temp1 uses the first value of theta and is simpler
-    %   because we don't need to consider the first column of X (which
-    %   is all 1's because of how we set up the problem
-    %
+    % Computing temp1 uses the first value of theta
     temp1 = theta(1) - (alpha / m) * sum((X * theta) - y); 
-    
-    % The second value of theta is a little more complicated to calc
-    %   but we basically do the same as the first value, but we need
-    %   to also consider the second column of X for each term. As we
-    %   compute the i'th term in the summation we need to multiply
-    %   each term by the corresponding term in the second column of
-    %   X.
-    %
     temp2 = theta(2) - (alpha / m) * sum(((X * theta) - y) .* X(:,2));
 
     theta = [temp1; temp2];
