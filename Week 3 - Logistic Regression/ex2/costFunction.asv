@@ -24,24 +24,14 @@ grad = zeros(size(theta));
 %
 z = X * theta;
 
-% Now the cost is just the function but using element-multiplication
-%   inside the sum()
-%
+% Now the cost 
 J = (-1 / m) * sum(y .* log(sigmoid(z)) + (1 - y) .* (log(1 - sigmoid(z))));
 
-% Now the partial derivative is w.r.t. a single term in theta, so to 
-%   compute it we'll iterate over the values of
 
-% temp will be a vector that will hold the next theta values while
-%   we calculate them
-%
-tempTheta = zeros(size(X, 2), 1);
 
-for i = 1:size(X, 2)
-    tempTheta(i) = (1 / m) * sum((sigmoid(z) - y) .* X(:,i));
-end
 
-grad = tempTheta;
+
+
 
 % =============================================================
 
