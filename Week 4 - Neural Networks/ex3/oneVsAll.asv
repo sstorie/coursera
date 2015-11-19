@@ -61,9 +61,7 @@ for c = [1:num_labels]
     [theta] = fmincg (@(t)(lrCostFunction(t, X, (y == c), lambda)), initial_theta, options);
     
     % Now theta is a column vector so we need to convert it to a row vector
-    %   (i.e., use its transpose) and assign it to the i'th row of all_theta
-    %
-    all_theta(c,:) = theta';
+    %   and assign it to the it
 end
 
 
