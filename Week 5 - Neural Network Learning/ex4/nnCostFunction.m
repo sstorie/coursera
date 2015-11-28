@@ -100,23 +100,45 @@ a3 = sigmoid(Theta2 * a2);
 %   the error of the network. To do so we'll iterate over every
 %   
 error = 0;
+
+% The error for the network is based on every sample we have, so
+%   iterate over all the available samples
+%
 for i = 1:m
-   % Compute the error for this specific sample by iterating over
-   %    each possible label
+   % Compute the error for this specific sample by examining how far
+   %    off the output value is for each possible label. So we need to
+   %    iterate over all possible labels and compute the error for each
    %   
    for j = 1:num_labels
+       % Just grab the actual label for the j'th node
+       %
        y_j = Y(i, j);
        
-       % a3 is oriented the other way so we swap the indexes
+       % Grab the predicted value for the j'th node. Note that because 
+       %    of our vectorized implementation above, a3 is oriented the 
+       %    other way so we swap the indexes
        %
        a_j = a3(j, i);
        
+       % Now the error at this output node (the j'th) is calculated
+       %    using the predicted value and the actual. So we'll have
+       %    some decimal value (from a3) and will compare it with
+       %    the 0 or 1 value that exists in the Y matrix we created
+       %    above.
+       %
        error_j = (-y_j * log(a_j)) - (1 - y_j) * (log(1 - a_j));
        
+       % Now that we have the error for the j'th node of the i'th
+       %    training sample, we just add it to the running total
+       %    for the entire network
+       %
        error = error + error_j;
    end
 end
 
+% Finally, now that we have the sum'd error for all samples in the data
+%   set we take the average by dividing it by the number of samples
+%
 J = error / m;
 
 % -------------------------------------------------------------
