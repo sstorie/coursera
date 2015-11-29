@@ -115,7 +115,8 @@ for i = 1:m
        y_j = Y(i, j);
        
        % Grab the predicted value for the j'th node. Note that because 
-       %    of our vectorizeda3 is oriented the other way so we swap the indexes
+       %    of our vectorized implementation above, a3 is oriented the 
+       %    other way so we swap the indexes
        %
        a_j = a3(j, i);
        
@@ -139,6 +140,18 @@ end
 %   set we take the average by dividing it by the number of samples
 %
 J = error / m;
+
+% Now we need to add in the regularization using the theta matrices
+%   provided, but we use temp matrices so we can set the first column
+%
+Theta1_reg = Theta1;
+Theta1_reg(:,1) = zeros(size(Theta1, 1);
+
+r2 = sum(Theta1_reg .^ 2);
+r3 = sum(Theta2 .^ 2);
+
+
+J = J + (lambda / (2 * m)) * (sum(r2) + sum(r3));
 
 % -------------------------------------------------------------
 

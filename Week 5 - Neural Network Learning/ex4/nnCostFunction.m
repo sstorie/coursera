@@ -141,6 +141,21 @@ end
 %
 J = error / m;
 
+% Now we need to add in the regularization using the theta matrices
+%   provided, but we use temp matrices so we can set the first column
+%   (the bias nodes) to zero first
+%
+Theta1_reg = Theta1;
+Theta1_reg(:,1) = zeros(size(Theta1, 1), 1);
+
+Theta2_reg = Theta2;
+Theta2_reg(:,1) = zeros(size(Theta2, 1), 1);
+
+r2 = sum(Theta1_reg .^ 2);
+r3 = sum(Theta2_reg .^ 2);
+
+J = J + (lambda / (2 * m)) * (sum(r2) + sum(r3));
+
 % -------------------------------------------------------------
 
 % =========================================================================
