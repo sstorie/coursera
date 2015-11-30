@@ -73,15 +73,19 @@ for i = 1:m
    Y(i, label) = 1;
 end
 
-% Add ones to the X data matrix to include the bias node
+%% Feed-forward propagation
 %
-X = [ones(m, 1) X];
+% Add ones to the X data matrix to include the bias node (which 
+%   is a1)
+%
+a1 = [ones(m, 1) X];
 
 % Calculate the a2 layer for all input rows
 %   After this the a1 values for the first row of X is now
 %   the first column of a2
 %
-a2 = sigmoid(Theta1 * X');
+z2 = Theta1 * a1';
+a2 = sigmoid(z2);
 
 % Now add in the bias node for each a1 layer by prepending
 %   a 1's row vector to a2
@@ -90,8 +94,13 @@ a2 = [ones(1, size(a2, 2)); a2];
 
 % Now we calculate the a3 layer using the updated a2 matrix
 %
-a3 = sigmoid(Theta2 * a2);
+z3 = Theta2 * a2;
+a3 = sigmoid(z3);
 
+
+
+%% Compute the cost of the network after FFP
+%
 % Now a3 contains a column vector of probabilities for each of
 %   possible classifications. So if we started with 10 examples,
 %   and 5 possible classes, a3 will be a 5x10 matrix
@@ -161,11 +170,35 @@ r3 = sum(Theta2_reg .^ 2);
 %
 J = J + (lambda / (2 * m)) * (sum(r2) + sum(r3));
 
-% -------------------------------------------------------------
 
-% =========================================================================
+%% Backpropagation using our calculated output values
 
-% Unroll gradients
+% We can vectorize the initial calculation of delta_3. In this
+%   example, a3 is 10x5000 and Y is the logical matrix with size
+%   5000x10. So in the vector operation we use Y'
+%
+Delta3 = a3 - Y';
+
+% Now the gradient is the measure of how much each element in
+%   Theta2 contributed to the error seen in a3. We calculate this
+%   across all the samples using a vector operation
+% 
+Theta2_grad = (Delta3 * a2') / m;
+
+% Now calculate delta2 using it. Note we remove the first column
+%   of Theta2 here because we don't include the bias nodes in this
+%   specific calculation
+%
+Theta2_temp = Theta2(:, 2:end);
+Delta2 = (Theta2_temp' * Delta3) .* sigmoidGradient(z2);
+
+% Now that we've got Theta2 done, we can move on to the first 
+% layer
+%
+Theta1_grad = (Delta2 * a1) / m;
+
+
+% Unroll gradientss
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
 
 
