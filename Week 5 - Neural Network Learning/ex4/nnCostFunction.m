@@ -151,9 +151,14 @@ Theta1_reg(:,1) = zeros(size(Theta1, 1), 1);
 Theta2_reg = Theta2;
 Theta2_reg(:,1) = zeros(size(Theta2, 1), 1);
 
+% Compute the element-wise square of each term in these copies of
+%   the theta matrices
+%
 r2 = sum(Theta1_reg .^ 2);
 r3 = sum(Theta2_reg .^ 2);
 
+% Finally update the overall cost using these regularized terms
+%
 J = J + (lambda / (2 * m)) * (sum(r2) + sum(r3));
 
 % -------------------------------------------------------------
