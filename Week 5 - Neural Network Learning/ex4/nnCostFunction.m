@@ -182,15 +182,6 @@ J = J + (lambda / (2 * m)) * (sum(r2) + sum(r3));
 %
 Delta3 = a3 - Y';
 
-% Now the gradient is the measure of how much each element in
-%   Theta2 contributed to the error seen in a3. We calculate this
-%   across all the samples using a vector operation using the error
-%   (Delta3) and the input values (a2). This multiplication will
-%   sum the errors for each sample, so we divide by the sample size
-%   to get the average error.
-% 
-Theta2_grad = (Delta3 * a2') / m;
-
 % Now calculate Delta2 using Delta3. Note we remove the first column
 %   of Theta2 here because we don't include the bias nodes in this
 %   specific calculation
@@ -198,13 +189,30 @@ Theta2_grad = (Delta3 * a2') / m;
 Theta2_temp = Theta2(:, 2:end);
 Delta2 = (Theta2_temp' * Delta3) .* sigmoidGradient(z2);
 
+
+% Now the gradient is the measure of how much each element in
+%   Theta2 contributed to the error seen in a3. We calculate this
+%   across all the samples using a vector operation using the error
+%   (Delta3) and the input values (a2). This multiplication will
+%   sum the errors for each sample, so we divide by the sample size
+%   to get the average error.
+% 
+% We'll start this operation by computing the regularization term
+%   with Theta2, but with the bias node values set to zero
+%
+Theta2_reg = Theta2;
+Theta2_reg(:,1) = zeros(1, size(Theta2_reg, 1));
+Theta2_grad = (Delta3 * a2' + (lambda * Theta2_reg)) / m;
+
 % Since this network only has a single hidden layer, we don't have
 %   another "Delta" to compute. To calculate the gradient for Theta1
 %   we can just use the Delta2 matrix we just created. This is the 
 %   same calc as above, and helps determine how much the weight of
 %   each input node contributed to the error seen at the hidden layer
 %
-Theta1_grad = (Delta2 * a1) / m;
+Theta1_reg = Theta1;
+Theta1_reg(:,1) = zeros(1, size(Theta1_reg, 1));
+Theta1_grad = (Delta2 * a1 + (lambda * Theta1_reg)) / m;
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
