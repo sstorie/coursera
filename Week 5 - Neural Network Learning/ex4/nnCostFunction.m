@@ -171,34 +171,42 @@ r3 = sum(Theta2_reg .^ 2);
 J = J + (lambda / (2 * m)) * (sum(r2) + sum(r3));
 
 
-%% Backpropagation using our calculated output values
+%% Vectorized Backpropagation using our calculated output values
 
 % We can vectorize the initial calculation of delta_3. In this
 %   example, a3 is 10x5000 and Y is the logical matrix with size
-%   5000x10. So in the vector operation we use Y'
+%   5000x10. So in the vector operation we use Y'.
+%
+% The result of this is a 10x5000 matrix where each column measures
+%   how far off each output node was for that specific input.
 %
 Delta3 = a3 - Y';
 
 % Now the gradient is the measure of how much each element in
 %   Theta2 contributed to the error seen in a3. We calculate this
-%   across all the samples using a vector operation
+%   across all the samples using a vector operation using the error
+%   (Delta3) and the input values (a2). This multiplication will
+%   sum the errors for each sample, so we divide by the sample size
+%   to get the average error.
 % 
 Theta2_grad = (Delta3 * a2') / m;
 
-% Now calculate delta2 using it. Note we remove the first column
+% Now calculate Delta2 using Delta3. Note we remove the first column
 %   of Theta2 here because we don't include the bias nodes in this
 %   specific calculation
 %
 Theta2_temp = Theta2(:, 2:end);
 Delta2 = (Theta2_temp' * Delta3) .* sigmoidGradient(z2);
 
-% Now that we've got Theta2 done, we can move on to the first 
-% layer
+% Since this network only has a single hidden layer, we don't have
+%   another "Delta" to compute. To calculate the gradient for Theta1
+%   we can just use the Delta2 matrix we just created. This is the 
+%   same calc as above, and helps determine how much the weight of
+%   each input node contributed to the error seen at the hidden layer
 %
 Theta1_grad = (Delta2 * a1) / m;
 
-
-% Unroll gradientss
+% Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
 
 
