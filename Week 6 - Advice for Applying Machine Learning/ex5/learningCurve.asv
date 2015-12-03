@@ -69,16 +69,7 @@ for i = 1:m
     %   of zero (since we don't include regularization on the training
     %   data).
     %
-    [J, grad] = linearRegCostFunction(X_iter, y_iter, theta, 0);
-    error_train(i) = J;
-    
-    % Now we can compute the cross-validation error. We do the same thing
-    %   as the train error, but we now use the entire set of validation data 
-    %   provided
-    %
-    [J, grad] = linearRegCostFunction(Xval, yval, theta, 0);
-    error_val(i) = J;
-    
+    error_train(i) = linearRegCostFunction(X_iter, y_it
 end
 
 
