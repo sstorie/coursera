@@ -42,27 +42,7 @@ error_val = zeros(length(lambda_vec), 1);
 
 for i = 1:length(lambda_vec)
     lambda = lambda_vec(i);
-    
-    % Now train the model (i.e., find theta) using this value of lambda
-    %   so we perform regularization
-    %
-    theta = trainLinearReg(X, y, lambda);
-   
-    % Now we can compute the training error. We do so using our existing
-    %   cost function, the training data provided, but a value of *zero*
-    %   for lambda.
-    %
-    % Despite using regularization above, we do NOT include lambda here
-    %   when calculating the error!
-    %
-    [J, grad] = linearRegCostFunction(X, y, theta, 0);
-    error_train(i) = J;
-    
-    % Now we can compute the cross-validation error. We do the same thing
-    %   as the train error, but we now use the validation data instead.
-    %
-    [J, grad] = linearRegCostFunction(Xval, yval, theta, 0);
-    error_val(i) = J;
+
 end
 
 
