@@ -15,6 +15,15 @@ X_poly = zeros(numel(X), p);
 %
 % 
 
+% Iterate over every value provided in the X vector
+%
+for i = 1:numel(X)
+   % Now iterate over each power required
+   %
+   for j = 1:p
+      X_poly(i,j) = X(i) ^ j; 
+   end
+end
 
 
 
