@@ -97,14 +97,18 @@ while ~isempty(email_contents)
     %       str2). It will return 1 only if the two strings are equivalent.
     %
 
+    % Grab the index of this string in the vocab list
+    %
+    vocab_idx = strmatch(str, vocabList, 'exact');
 
-
-
-
-
-
-
-
+    % If the result is not empty, then we need to add this string
+    %   to the word_indices vector
+    %
+    if(isempty(vocab_idx) == 0)
+        % Append this index to the word_indices vector
+        %
+        word_indices = [word_indices ; vocab_idx];
+    end
 
     % =============================================================
 
