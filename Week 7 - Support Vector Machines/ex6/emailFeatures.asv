@@ -50,11 +50,12 @@ x = zeros(n, 1);
 
 % Iterate over each word in the provided vector
 %
-for i = 1:size(word_indices, 1)
+for i = 1:size(word_indices, 2)
     % Change the index of x corresponding to the word to a 1
     %
-    word = word_indices(i);
-    x(word) = 1;
+    
+
+
 end
 
 
