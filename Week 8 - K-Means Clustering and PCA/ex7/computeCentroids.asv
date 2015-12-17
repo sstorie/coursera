@@ -26,20 +26,14 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
-for i = 1:K
-    % Grab the indices of X that are assigned to this centroid
-    %
-    c = idx == i;
+for i = size(centroids, 1)
+   % Grab the indices of X that are assigned to this centroid
+   %
+   c = idx == i;
+   X_i = idx(C);
    
-    % c now contains the indexes of idx that match the current
-    %    centroid, so we can use that to pull out the values
-    %    of X for this centroid
-    %
-    X_i = X(c,:);
-   
-    for j = 1:n
-        centroids(i, j) = sum(X_i(:,j)) * (1 / size(X_i, 1));
-    end 
+    
+    
 end
 
 
