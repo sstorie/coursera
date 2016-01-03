@@ -40,32 +40,14 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
-% To compute the cost we use the formula, and include a "trick" that
-% incorporates the R matrix using an element-wise multiplication operation.
-% With this approach, elements of R that are zero will remove the
-% contribution to the sum of any movies that a user has not rated.
-%
+
 J = 0.5 * sum(sum(((X * Theta' - Y) .^ 2) .* R))
 
-% Note, this approach was guided by the tutorial provided here:
-% https://www.coursera.org/learn/machine-learning/module/HjnB4/discussions/92NKXCLBEeWM2iIAC0KUpw
-%
 
-% Now the gradients can be computed using a vectorized operation. We first
-% compute the error matrix. Then using that we incorporate the R matrix
-% again using a technique similar to above (call this error_factor).
-%
 error = X * Theta' - Y;
 error_factor = error .* R;
 
-% Now the summation for the X gradient can be done using a simple matrix
-% multiplication between the error_factor matrix and Theta.
-%
 X_grad = error_factor * Theta;
-
-% We do something similar for the Theta gradients, but need to transpose
-% the error_factor matrix here to get the dimensions right
-%
 Theta_grad = error_factor' * X;
 
 % =============================================================
