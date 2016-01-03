@@ -70,14 +70,16 @@ error = X * Theta' - Y;
 error_factor = error .* R;
 
 % Now the summation for the X gradient can be done using a simple matrix
-% multiplication between the error_factor matrix and Theta.
+% multiplication between the error_factor matrix and Theta. For
+% regularization we scale the result by lambda multiplied by X.
 %
-X_grad = error_factor * Theta;
+X_grad = (error_factor * Theta) + (lambda * X);
 
 % We do something similar for the Theta gradients, but need to transpose
-% the error_factor matrix here to get the dimensions right
+% the error_factor matrix here to get the dimensions right. For
+% regularization we scale the result by lambda multiplied by Theta.
 %
-Theta_grad = error_factor' * X;
+Theta_grad = (error_factor' * X) + (lambda * Theta);
 
 % =============================================================
 
