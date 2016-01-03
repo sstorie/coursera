@@ -40,12 +40,23 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
-% To compute the cost we use the formula, and include a "trick" that
-% incorporates the R matrix using an element-wise multiplication operation.
-% With this approach, elements of R that are zero will remove the
-% contribution to the sum of any movies that a user has not rated.
+% To compute the unregularized cost we use the formula, and include a 
+% "trick" that incorporates the R matrix using an element-wise 
+% multiplication operation. With this approach, elements of R that are 
+% zero will remove the contribution to the sum of any movies that a user 
+% has not rated.
 %
-J = 0.5 * sum(sum(((X * Theta' - Y) .^ 2) .* R))
+unreg_cost = 0.5 * sum(sum(((X * Theta' - Y) .^ 2) .* R))
+
+% The regularized cost terms for X and Theta are simply the squared sums
+% of all the terms in each respectively scaled by lamdba.
+%
+reg_cost_X = (lambda / 2) * sum(sum(X .^ 2));
+reg_cost_Theta = (lambda / 2) * sum(sum(Theta .^ 2));
+
+% Now the total regularized cost is the sum of these terms
+%
+J = unreg_cost + reg_cost_X + reg_cost_Theta;
 
 % Note, this approach was guided by the tutorial provided here:
 % https://www.coursera.org/learn/machine-learning/module/HjnB4/discussions/92NKXCLBEeWM2iIAC0KUpw
